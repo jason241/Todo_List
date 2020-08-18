@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+
+<body>
+    <input type="text" id="item"><button onclick="todolist.addItem()">輸入</button>
+    <div id='todolist'>
+    </div>
+    <script>
+        var todolist = {
+            list: [],
+            addItem: function () {
+                var item = document.getElementById('item').value;
+                var listarr = this.list;
+                var dt = (+new Date());
+                var iteminfo = {
+                    id: dt,
+                    content: item
+                };
+                this.list.push(iteminfo);
+                document.getElementById('todolist').innerHTML +=
+                    `<div id='${dt}'>${item}
+                <button id='${dt}' onclick='todolist.delItem()'>刪除</button>
+                <button id='${dt}' onclick='todolist.editItem()'>編輯</button>
+                </div>`
+                document.getElementById('item').value = '';
+            },
+            delItem: function () {
+                var itemli = event.target;
+                //抓出陣列中所有物件的id
+                const arrvalue = this.list.map(item => Object.values(item)[0])
+                //用indexof找出id的索引位置，然後從陣列中刪除
+                var itemlocate = arrvalue.indexOf(parseInt(itemli.id));
+                this.list.splice(itemlocate, 1);
+                //取得新增出來的項目id(目前是取得button的id，做法不太好，因為ID重複)
+                document.getElementById(itemli.id).innerHTML = '';
+            },
+            editItem: function () {
+                var itemli = event.target;
+                const arrvalue = this.list.map(item => Object.values(item)[0])
+                var itemlocate = arrvalue.indexOf(parseInt(itemli.id));
+                document.getElementById(itemli.id).innerHTML =
+                    `<input id='edit_input${itemli.id}' value='${this.list[itemlocate].content}'></input>
+                    <button id ='${itemli.id}' onclick='todolist.editSubmit()'>確認</button>`;
+
+            },
+            editSubmit: function () {
+                var itemedit = event.target;
+                const arrvalue = this.list.map(item => Object.values(item)[0])
+                var itemlocate = arrvalue.indexOf(parseInt(itemedit.id));
+                var editvalue = document.getElementById('edit_input' + itemedit.id).value
+                document.getElementById(itemedit.id).innerHTML =
+                    `<div id='${itemedit.id}'>${editvalue}
+                <button id='${itemedit.id}' onclick='todolist.delItem()'>刪除</button>
+                <button id='${itemedit.id}' onclick='todolist.editItem()'>編輯</button>
+                </div>`
+                var updatearr = this.list[itemlocate];
+                updatearr.content = editvalue;
+            }
+        }
+    </script>
+
+</body>
+
+
+</html>
