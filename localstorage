@@ -26,9 +26,10 @@
                 localStorage.setItem(iteminfo.id, iteminfo.content);
                 this.list.push(iteminfo);
                 document.getElementById('todolist').innerHTML +=
-                    `<div id='${dt}'>${item}
+                    `<div id='${dt}'>
                 <button id='${dt}' onclick='todolist.delItem()'>刪除</button>
                 <button id='${dt}' onclick='todolist.editItem()'>編輯</button>
+                ${item}
                 </div>`
                 document.getElementById('item').value = '';
             },
@@ -73,9 +74,10 @@
                     }
                     this.list.push(iteminfo)
                     document.getElementById('todolist').innerHTML +=
-                        `<div id='${iteminfo.id}'>${iteminfo.content}
+                        `<div id='${iteminfo.id}'>
                 <button id='${iteminfo.id}' onclick='todolist.delItem()'>刪除</button>
                 <button id='${iteminfo.id}' onclick='todolist.editItem()'>編輯</button>
+                ${iteminfo.content}
                 </div>`
                 }
 
